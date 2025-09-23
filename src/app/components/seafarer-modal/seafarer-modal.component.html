@@ -1,0 +1,83 @@
+<div class="modal-backdrop" (click)="onCancel()"></div>
+
+<div class="modal-container">
+  <!-- ✅ Header -->
+  <div class="modal-header">
+    <h2>Add New Seafarer</h2>
+    <button class="close-btn" (click)="onCancel()">✖</button>
+  </div>
+
+  <div class="modal-content">
+    <!-- ✅ الأقسام على الشمال -->
+    <ul class="nav-sections">
+      <li (click)="setSection('personal')" [class.active]="activeSection==='personal'">Personal Data</li>
+      <li (click)="setSection('contact')" [class.active]="activeSection==='contact'">Contact Data</li>
+      <li (click)="setSection('offshore')" [class.active]="activeSection==='offshore'">Offshore Data</li>
+      <li (click)="setSection('qualifications')" [class.active]="activeSection==='qualifications'">Educational Qualifications</li>
+      <li (click)="setSection('certificates')" [class.active]="activeSection==='certificates'">Certificates</li>
+      <li (click)="setSection('languages')" [class.active]="activeSection==='languages'">Languages Known</li>
+      <li (click)="setSection('references')" [class.active]="activeSection==='references'">References</li>
+      <li (click)="setSection('experience')" [class.active]="activeSection==='experience'">Work Experience</li>
+    </ul>
+
+    <!-- ✅ الفورم على اليمين -->
+    <div class="form-section">
+      <form [formGroup]="seafarerForm">
+        <!-- Personal Section -->
+        <div *ngIf="activeSection==='personal'" class="form-grid">
+          <div>
+            <label>Name</label>
+            <input type="text" formControlName="EmployeeName" />
+          </div>
+          <div>
+            <label>Nationality</label>
+            <input type="text" formControlName="Nationality" />
+          </div>
+          <div>
+            <label>Date of Birth</label>
+            <input type="date" formControlName="BirthDate" />
+          </div>
+          <div>
+            <label>Age</label>
+            <input type="number" formControlName="Age" />
+          </div>
+        </div>
+
+        <!-- باقي الأقسام هتتعمل بنفس الطريقة -->
+        <div *ngIf="activeSection==='contact'">
+          <p>Contact form fields...</p>
+        </div>
+
+        <div *ngIf="activeSection==='offshore'">
+          <p>Offshore data fields...</p>
+        </div>
+
+        <div *ngIf="activeSection==='qualifications'">
+          <p>Qualifications form array...</p>
+        </div>
+
+        <div *ngIf="activeSection==='certificates'">
+          <p>Certificates form array...</p>
+        </div>
+
+        <div *ngIf="activeSection==='languages'">
+          <p>Languages form array...</p>
+        </div>
+
+        <div *ngIf="activeSection==='references'">
+          <p>References form array...</p>
+        </div>
+
+        <div *ngIf="activeSection==='experience'">
+          <p>Work experience form array...</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ✅ Footer -->
+  <div class="modal-footer">
+    <button class="btn cancel" (click)="onCancel()">Cancel</button>
+    <button class="btn save" (click)="onSave()">Save</button>
+  </div>
+</div>

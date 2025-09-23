@@ -1,0 +1,115 @@
+<div class="seafarers-container container-fluid">
+  <!-- ✅ Header -->
+  <div class="header d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold text-primary">🌊 Seafarers Roster</h2>
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" (click)="onAdd()">+ Add Seafarer</button>
+      <button class="btn btn-outline-secondary" (click)="toggleFilter()">Filter</button>
+      <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#displayColumnsModal">
+        Display Columns
+      </button>
+    </div>
+  </div>
+
+  <!-- ✅ الفلتر يظهر ويختفي -->
+  <div class="row mb-3" *ngIf="showFilters">
+    <div class="col-md-6 mb-2">
+      <input 
+        type="text" 
+        class="form-control"
+        placeholder="Filter by Name or Rank..."
+        (input)="onFilterNameRank($event)" />
+    </div>
+    <div class="col-md-6 mb-2">
+      <input 
+        type="text" 
+        class="form-control"
+        placeholder="Filter by Nationality..."
+        (input)="onFilterNationality($event)" />
+    </div>
+  </div>
+
+  <!-- ✅ جدول Scrollable -->
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th *ngFor="let col of displayedColumns" 
+              (click)="sortData(col.key)" 
+              style="cursor: pointer; white-space: nowrap;">
+            {{ col.label }}
+            <span *ngIf="sortColumn === col.key">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let element of filteredSeafarers">
+          <!-- ✅ باقي الأعمدة -->
+          <td *ngFor="let col of displayedColumns" [ngSwitch]="col.key">
+            
+            <!-- ✅ Actions Column -->
+            <ng-container *ngSwitchCase="'actions'" class="actions d-flex justify-content-center px-1">
+              <button 
+                class="btn btn-sm me-2"
+                [ngClass]="element.Status === 1 ? 'btn-success' : 'btn-danger'"
+                (click)="onToggleStatus(element)">
+                <span *ngIf="element.Status === 1">✔️</span>
+                <span *ngIf="element.Status !== 1">⭕</span>
+              </button>
+
+              <button class="btn btn-sm btn-primary" (click)="onEdit(element)">
+                ✏️
+              </button>
+            </ng-container>
+
+            <!-- ✅ باقي الخانات -->
+            <ng-container *ngSwitchDefault>
+              {{ getValue(element, col.key) }}
+            </ng-container>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ✅ مودال Display Columns -->
+<div class="modal fade" id="displayColumnsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">⚙️ Display Columns</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 mb-2" *ngFor="let col of allColumns">
+            <div class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox"
+                [checked]="col.visible"
+                [disabled]="col.key === 'actions'"
+                (change)="toggleColumn(col)">
+              <label class="form-check-label fw-medium">{{ col.label }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- مكان لإدراج المودال ديناميكياً -->
+<ng-template #modalHost></ng-template>
+

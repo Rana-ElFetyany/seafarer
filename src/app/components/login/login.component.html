@@ -1,0 +1,27 @@
+<div class="login-container">
+  <!-- Background Image -->
+  <div class="background"></div>
+
+  <!-- Login Card -->
+  <div class="login-card">
+    <h2>Welcome Back</h2>
+    <p>Login to continue your journey</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="sendData()">
+      <div class="form-group">
+        <input type="text" formControlName="username" placeholder="Username" />
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+        />
+      </div>
+      <button type="submit" [disabled]="isBtnSubmit">Login</button>
+    </form>
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+  </div>
+</div>
