@@ -174,9 +174,22 @@ export class SeafarersListComponent implements OnInit {
     return (seafarer as any)[key];
   }
 
+  // ✅ تفعيل / إلغاء التفعيل
   onToggleStatus(seafarer: Seafarer) {
-    console.log('🔄 Toggle status for:', seafarer.Id);
-    seafarer.Status = seafarer.Status === 1 ? 2 : 1;
+    const newStatus = seafarer.Status === 1 ? 2 : 1;
+    console.log(`🔄 Toggle status for ID=${seafarer.Id} → ${newStatus}`);
+
+    this._SeafarerService
+      .toggleSeafarerStatus(seafarer.Id, newStatus)
+      .subscribe({
+        next: () => {
+          seafarer.Status = newStatus; // تحديث محلي
+          console.log('✅ Status updated');
+        },
+        error: (err) => {
+          console.error('❌ Error toggling status:', err);
+        },
+      });
   }
 
   onEdit(seafarer: Seafarer) {

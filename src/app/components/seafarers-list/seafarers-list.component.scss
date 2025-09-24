@@ -1,201 +1,40 @@
-// .seafarers-container {
-//   padding: 20px;
-
-//   .header {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     margin-bottom: 15px;
-
-//     h2 {
-//       font-size: 24px;
-//       font-weight: bold;
-//       color: #333;
-//     }
-
-//     .header-actions {
-//       display: flex;
-//       gap: 10px;
-
-//       button {
-//         padding: 8px 16px;
-//         border: none;
-//         border-radius: 6px;
-//         cursor: pointer;
-//         font-weight: 500;
-//         transition: 0.3s;
-
-//         &.add-btn {
-//           background: #2563eb;
-//           color: white;
-//         }
-
-//         &.filter-btn {
-//           background: #f3f4f6;
-//           color: #333;
-//         }
-
-//         &.display-btn {
-//           background: #f3f4f6;
-//           color: #333;
-//         }
-
-//         &:hover {
-//           opacity: 0.9;
-//         }
-//       }
-//     }
-//   }
-
-//   .filters {
-//     display: flex;
-//     gap: 15px;
-//     margin-bottom: 15px;
-
-//     input {
-//       flex: 1;
-//       padding: 8px 12px;
-//       border: 1px solid #ddd;
-//       border-radius: 6px;
-//     }
-//   }
-
-//   .seafarers-table {
-//     width: 100%;
-//     border-collapse: collapse;
-//     background: white;
-
-//     th, td {
-//       padding: 10px;
-//       border-bottom: 1px solid #eee;
-//       text-align: left;
-//     }
-
-//     th {
-//       background: #f9fafb;
-//       font-weight: 600;
-//     }
-
-//     tr:hover {
-//       background: #f1f5f9;
-//     }
-
-//     .action-btn {
-//       border: none;
-//       margin: 0 3px;
-//       padding: 6px 10px;
-//       border-radius: 6px;
-//       cursor: pointer;
-//       transition: 0.3s;
-
-//       &.edit {
-//         background: #ffaa00;
-//         color: white;
-//       }
-
-//       &.active {
-//         background: #00cc66;
-//         color: white;
-//       }
-//     }
-//   }
-
-//   .status-btn {
-//   border: none;
-//   padding: 6px 12px;
-//   border-radius: 6px;
-//   cursor: pointer;
-//   font-weight: bold;
-//   transition: 0.3s;
-//   margin-right: 8px;
-
-//   &.active {
-//     background: #28a745; // أخضر
-//     color: white;
-//   }
-
-//   &.inactive {
-//     background: #dc3545; // أحمر
-//     color: white;
-//     text-decoration: line-through; // ❌ خط في النص
-//   }
-
-//   &:hover {
-//     opacity: 0.9;
-//     transform: scale(1.05);
-//   }
-// }
-
-// .edit-btn {
-//   border: none;
-//   padding: 6px 12px;
-//   border-radius: 6px;
-//   background: #007bff;
-//   color: white;
-//   cursor: pointer;
-//   transition: 0.3s;
-
-//   &:hover {
-//     background: #0056b3;
-//     transform: scale(1.05);
-//   }
-// }
-
-// }
-
 .seafarers-container {
-  padding: 20px;
-
-  .header {
-    margin-bottom: 20px;
-
-    h2 {
-      font-size: 22px;
-      font-weight: 600;
-      color: #2563eb;
-    }
-  }
-
-  .filters {
-    margin-bottom: 15px;
-
-    input {
-      border-radius: 6px;
-      padding: 8px 12px;
-      border: 1px solid #ccc;
-    }
-  }
+  width: 95%;
 
   .table-responsive {
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    overflow-x: auto;
-    background: white;
+    overflow-x: auto;  // ✅ عشان يظهر scroll بالعرض
   }
 
   table {
-    width: 100%;
-    border-collapse: collapse;
     font-size: 14px;
+    table-layout: auto;   // الأعمدة تتظبط حسب المحتوى
+    white-space: nowrap;  // ✅ النص يفضل سطر واحد
+    width: 100%;
 
     th, td {
-      padding: 12px 15px;
-      text-align: left;
+      padding: 10px 12px;
       vertical-align: middle;
-      border-bottom: 1px solid #f1f1f1;
-      white-space: nowrap;
+      border-top: 1px solid #f3f4f6;
     }
 
-    th {
-      background: #f9fafb;
-      font-weight: 600;
-      cursor: pointer;
-      user-select: none;
+    tr {
+      height: 48px; // ✅ يدي نفس الارتفاع لكل record
     }
 
     tr:hover td {
-      background: #f8fafc;
+      background: #f9fafb;
     }
+  }
+
+  // 🎨 ألوان مميزة لبعض الأعمدة
+  .id-col {
+    color: #2563eb;
+    font-weight: 600;
+  }
+
+  .email-col {
+    color: #1d4ed8;
+    font-style: italic;
   }
 
   .status-btn {
@@ -227,7 +66,18 @@
 
     &:hover {
       background: #0056b3;
+      transform: scale(1.05);
     }
   }
 }
+.gradient-title {
+    background: linear-gradient(90deg, #2563eb, #9333ea, #f43f5e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
 
+.modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}

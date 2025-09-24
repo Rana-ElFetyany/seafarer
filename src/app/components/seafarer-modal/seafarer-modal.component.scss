@@ -1,179 +1,255 @@
-/* الخلفية مع البلير */
+/* الخلفية الداكنة مع الشفافية */
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(15, 15, 15, 0.4);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.5); /* مش أسود كامل */
   z-index: 1000;
 }
 
-/* الكونتينر */
+/* الحاوية الرئيسية */
 .modal-container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #ffffff; /* أبيض */
+  background: #fff;
   color: #000;
-  width: 95%;
-  max-width: 1300px;
+  width: 90%;
+  max-width: 1200px;
   max-height: 90vh;
   border-radius: 12px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
   z-index: 1001;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Header */
+/* الهيدر */
 .modal-header {
+  padding: 15px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid #ddd;
-
-  h2 {
-    margin: 0;
-    font-size: 1.3rem;
-  }
-
-  .close-btn {
-    background: transparent;
-    border: none;
-    font-size: 1.4rem;
-    cursor: pointer;
-    color: #333;
-
-    &:hover {
-      color: #e74c3c;
-    }
-  }
 }
 
-/* Main content split */
-.modal-content {
-  display: flex;
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #d9534f;
+}
+
+/* الجسم */
+.modal-body {
   flex: 1;
+  display: flex;
   overflow: hidden;
 }
 
-/* القائمة على الشمال */
-.nav-sections {
+/* العمود الأيسر (القائمة) */
+.sidebar {
   width: 220px;
   border-right: 1px solid #eee;
+  padding: 15px;
   background: #fafafa;
-  padding: 1rem 0;
-  margin: 0;
-  list-style: none;
-
-  li {
-    padding: 0.8rem 1.2rem;
-    cursor: pointer;
-    transition: background 0.2s;
-    font-size: 0.95rem;
-
-    &:hover {
-      background: #f0f0f0;
-    }
-
-    &.active {
-      background: #007bff;
-      color: #fff;
-      font-weight: 500;
-    }
-  }
-}
-
-/* الفورم */
-.form-section {
-  flex: 1;
-  padding: 1.5rem;
   overflow-y: auto;
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-
-    label {
-      display: block;
-      font-size: 0.85rem;
-      margin-bottom: 0.3rem;
-      color: #333;
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      padding: 0.6rem 0.8rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 0.9rem;
-      background: #fff;
-
-      &:focus {
-        border-color: #007bff;
-        outline: none;
-      }
-    }
-  }
 }
 
-/* Footer */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  transition: background 0.2s;
+}
+
+.sidebar li.active,
+.sidebar li:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+/* العمود الأيمن (الفورم) */
+.form-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+/* نظام grid للفورم */
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  flex: 1 1 calc(50% - 15px);
+}
+
+.form-grid input,
+.form-grid textarea,
+.form-grid select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: #fff;
+  color: #000;
+  margin-top: 5px;
+}
+
+.form-grid input:focus,
+.form-grid textarea:focus,
+.form-grid select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form-grid textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* الفوتر */
 .modal-footer {
-  padding: 1rem 1.5rem;
+  padding: 12px 16px;
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  border-top: 1px solid #ddd;
-
-  .btn {
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
-
-    &.cancel {
-      background: #f0f0f0;
-      color: #333;
-
-      &:hover {
-        background: #e0e0e0;
-      }
-    }
-
-    &.save {
-      background: #007bff;
-      color: #fff;
-
-      &:hover {
-        background: #0069d9;
-      }
-    }
-  }
+  gap: 12px;
+  border-top: 1px solid #eee;
+  background: #fff;
 }
 
-/* Responsive */
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btn.cancel {
+  background: #f1f1f1;
+  color: #333;
+}
+
+.btn.cancel:hover {
+  background: #e0e0e0;
+}
+
+.btn.save {
+  background: #007bff;
+  color: #fff;
+}
+
+.btn.save:hover {
+  background: #0069d9;
+}
+
+/* ريسبونسيف */
 @media (max-width: 768px) {
-  .modal-content {
+  .modal-body {
     flex-direction: column;
   }
 
-  .nav-sections {
+  .sidebar {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+  }
 
-    li {
-      flex: 1 1 50%;
-      text-align: center;
-      border-bottom: 1px solid #eee;
-    }
+  .sidebar li {
+    flex: 1 1 50%;
+    text-align: center;
+  }
+
+  .form-grid label {
+    flex: 1 1 100%;
   }
 }
+.remove-btn {
+  font-size: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease;
+}
+
+.remove-btn:hover {
+  color: red;
+}
+
+/* ستايل input inline */
+.form-input-inline {
+  border: none;
+//   border-bottom: 1px solid #ccc;
+  width: 100%;
+  padding: 2px 4px;
+  outline: none;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.form-input-inline:focus {
+  border-bottom: 1px solid #007bff; /* أزرق عند الكتابة */
+}
+
+/* X الصغيرة */
+.remove-row {
+  cursor: pointer;
+  color: #aaa;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.remove-row:hover {
+  color: #fff;
+  background: #dc3545; /* أحمر عند الهوفر */
+}
+
+.table input.form-control {
+  box-shadow: none;
+  outline: none;
+  background: transparent;
+}
+
+.table input.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 1px 0 0 #0d6efd;
+}
+

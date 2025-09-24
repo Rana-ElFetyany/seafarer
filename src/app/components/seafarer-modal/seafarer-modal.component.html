@@ -1,81 +1,515 @@
+<!-- الخلفية الداكنة -->
 <div class="modal-backdrop" (click)="onCancel()"></div>
 
+<!-- الحاوية الرئيسية للمودال -->
 <div class="modal-container">
-  <!-- ✅ Header -->
+  <!-- الهيدر -->
   <div class="modal-header">
-    <h2>Add New Seafarer</h2>
-    <button class="close-btn" (click)="onCancel()">✖</button>
+    <h2>Seafarer Form</h2>
+    <button class="close-btn" (click)="onCancel()">×</button>
   </div>
 
-  <div class="modal-content">
-    <!-- ✅ الأقسام على الشمال -->
-    <ul class="nav-sections">
-      <li (click)="setSection('personal')" [class.active]="activeSection==='personal'">Personal Data</li>
-      <li (click)="setSection('contact')" [class.active]="activeSection==='contact'">Contact Data</li>
-      <li (click)="setSection('offshore')" [class.active]="activeSection==='offshore'">Offshore Data</li>
-      <li (click)="setSection('qualifications')" [class.active]="activeSection==='qualifications'">Educational Qualifications</li>
-      <li (click)="setSection('certificates')" [class.active]="activeSection==='certificates'">Certificates</li>
-      <li (click)="setSection('languages')" [class.active]="activeSection==='languages'">Languages Known</li>
-      <li (click)="setSection('references')" [class.active]="activeSection==='references'">References</li>
-      <li (click)="setSection('experience')" [class.active]="activeSection==='experience'">Work Experience</li>
-    </ul>
+  <!-- الجسم -->
+  <div class="modal-body">
+    <!-- العمود الأيسر -->
+    <div class="sidebar">
+      <ul>
+        <li
+          *ngFor="let section of sections"
+          [class.active]="activeSection === section.key"
+          (click)="setSection(section.key)">
+          {{ section.label }}
+        </li>
+      </ul>
+    </div>
 
-    <!-- ✅ الفورم على اليمين -->
-    <div class="form-section">
-      <form [formGroup]="seafarerForm">
-        <!-- Personal Section -->
-        <div *ngIf="activeSection==='personal'" class="form-grid">
-          <div>
-            <label>Name</label>
-            <input type="text" formControlName="EmployeeName" />
+    <!-- العمود الأيمن -->
+    <div class="form-area">
+      <form [formGroup]="seafarerForm" class="row g-3">
+        
+        <!-- Personal Data -->
+        <div *ngIf="activeSection === 'personal'" class="form-section w-100">
+          <h3>Personal Data</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Employee</label>
+              <select class="form-control" formControlName="EmployeeName">
+                <option value="" disabled selected>-- اختر موظف --</option>
+                <option *ngFor="let emp of employees" [value]="emp.Value">
+                  {{ emp.Text }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Nationality</label>
+              <input class="form-control" formControlName="Nationality" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Birth Date</label>
+              <input type="date" class="form-control" formControlName="BirthDate" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Age</label>
+              <input class="form-control" formControlName="Age" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Place Of Birth</label>
+              <input class="form-control" formControlName="PlaceOfBirth" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Religion</label>
+              <input class="form-control" formControlName="Religion" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Marital Status</label>
+              <input class="form-control" formControlName="MaritalStatus" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Name Of Spouse</label>
+              <input class="form-control" formControlName="NameOfSpouse" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">No Of Children</label>
+              <input class="form-control" formControlName="NoOfChildren" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Body Weight (kg)</label>
+              <input class="form-control" formControlName="BodyWeight" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Height (cm)</label>
+              <input class="form-control" formControlName="Height" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Nearest Airport</label>
+              <input class="form-control" formControlName="NearestAirport" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Remarks</label>
+              <textarea class="form-control" formControlName="Remarks"></textarea>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Employment Date</label>
+              <input type="date" class="form-control" formControlName="EmploymentDate" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Job Name</label>
+              <input class="form-control" formControlName="JobName" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Passport Number</label>
+              <input class="form-control" formControlName="PassportNumber" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Passport Issue Date</label>
+              <input type="date" class="form-control" formControlName="PassPortIssueDate" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Passport Expiry Date</label>
+              <input type="date" class="form-control" formControlName="PassportExpireDate" />
+            </div>
+
+            <!-- <div class="col-md-6">
+              <label class="form-label">Sponsor Name</label>
+              <input class="form-control" formControlName="SponsorName" />
+            </div> -->
+
+            <div class="col-md-6">
+              <label class="form-label">Visa Sponsor</label>
+              <select class="form-control" formControlName="SponsorName">
+                <option value="" disabled selected>-- choose --</option>
+                <option *ngFor="let sp of sponsors" [value]="sp.Value">
+                  {{ sp.Text }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Visa / UAE ID No</label>
+              <input class="form-control" formControlName="VisaUAEIdNO" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Visa Issue Date</label>
+              <input type="date" class="form-control" formControlName="VisaIssueDate" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Visa Expiry Date</label>
+              <input type="date" class="form-control" formControlName="VisaExpiryDate" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Residence Number</label>
+              <input class="form-control" formControlName="ResidenceNumber" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Medical Insurance Date</label>
+              <input type="date" class="form-control" formControlName="MedicalInsuranceDate" />
+            </div>
           </div>
-          <div>
-            <label>Nationality</label>
-            <input type="text" formControlName="Nationality" />
+        </div>
+
+        <!-- Contact Data -->
+        <div *ngIf="activeSection === 'contact'" class="form-section w-100">
+          <h3>Contact Data</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input class="form-control" formControlName="Email" />
+            </div>
+                <div class="col-6">
+                <label class="form-label">Permanent Address (Home Country)</label>
+                <input class="form-control" formControlName="PermanentAddressHomeCountry">
+                </div>
+
+                <div class="col-md-6">
+                <label class="form-label">Contact Number (Home Country)</label>
+                <input class="form-control" formControlName="ContactNumberHomeCountry" />
+                </div>
+
+                <div class="col-md-6">
+                <label class="form-label">Contact Name & Number (Emergencies - UAE)</label>
+                <input class="form-control" formControlName="ContactNameAndNumberDuringEmergenciesUAE" />
+                </div>
+
+                <div class="col-md-12">
+                <label class="form-label">Contact Name & Number (Emergencies - Home)</label>
+                <input class="form-control" formControlName="ContactNameAndNumberDuringEmergenciesHome" />
+                </div>
           </div>
-          <div>
-            <label>Date of Birth</label>
-            <input type="date" formControlName="BirthDate" />
-          </div>
-          <div>
-            <label>Age</label>
-            <input type="number" formControlName="Age" />
-          </div>
         </div>
 
-        <!-- باقي الأقسام هتتعمل بنفس الطريقة -->
-        <div *ngIf="activeSection==='contact'">
-          <p>Contact form fields...</p>
+        <!-- Offshore Data -->
+        <div *ngIf="activeSection === 'offshore'" class="form-section w-100">
+        <h3>Offshore Data</h3>
+        <div class="row g-3">
+            <div class="col-md-6">
+            <label class="form-label">Seaman Book NO</label>
+            <input class="form-control" formControlName="SeamanBookNO" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Seaman Issue Date</label>
+            <input type="date" class="form-control" formControlName="SeamanIssueDate" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Seaman Expiry Date</label>
+            <input type="date" class="form-control" formControlName="SeamanExpiryDate" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Cicpa NO</label>
+            <input class="form-control" formControlName="CicpaNO" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Cicpa Issue Date</label>
+            <input type="date" class="form-control" formControlName="CicpaIssueDate" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Cicpa Expiry Date</label>
+            <input type="date" class="form-control" formControlName="CicpaExpiryDate" />
+            </div>
+        </div>
         </div>
 
-        <div *ngIf="activeSection==='offshore'">
-          <p>Offshore data fields...</p>
+        <!-- Qualifications -->
+        <div *ngIf="activeSection === 'qualifications'" class="form-section w-100">
+        <h3>Qualifications</h3>
+
+        <!-- mini-form مستقل -->
+        <div [formGroup]="qualificationForm" class="row g-3 mb-3">
+            <div class="col-md-6">
+            <label class="form-label">Degree / Course</label>
+            <input class="form-control" formControlName="DegreeOrCourse" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Major / Subject</label>
+            <input class="form-control" formControlName="MajorOrSubject" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Issue Date</label>
+            <input type="date" class="form-control" formControlName="CourseIssueDate" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Expiry Date</label>
+            <input type="date" class="form-control" formControlName="ExpiryDate" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">University</label>
+            <input class="form-control" formControlName="University" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Country</label>
+            <input class="form-control" formControlName="Country" />
+            </div>
+
+            <div class="col-12 text-end">
+            <button type="button" class="btn btn-outline-primary" (click)="addQualification()">+ Add Qualification</button>
+            </div>
         </div>
 
-        <div *ngIf="activeSection==='qualifications'">
-          <p>Qualifications form array...</p>
+        <!-- الجدول اللي بيعرض البيانات -->
+        <div *ngIf="qualifications.controls.length > 0" class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Degree / Course</th>
+                <th>Major / Subject</th>
+                <th>Issue Date</th>
+                <th>Expiry Date</th>
+                <th>University</th>
+                <th>Country</th>
+                <th></th> <!-- ✅ عمود للـ X -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let q of qualifications.controls; let i = index" [formGroup]="q">
+                <td>{{ q.get('DegreeOrCourse')?.value }}</td>
+                <td>{{ q.get('MajorOrSubject')?.value }}</td>
+                <td>{{ q.get('CourseIssueDate')?.value }}</td>
+                <td>{{ q.get('ExpiryDate')?.value }}</td>
+                <td>{{ q.get('University')?.value }}</td>
+                <td>{{ q.get('Country')?.value }}</td>
+                <td>
+                <button type="button" class="btn btn-sm btn-link text-danger remove-btn text-decoration-none" (click)="removeQualification(i)">
+                    ✖
+                </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
         </div>
 
-        <div *ngIf="activeSection==='certificates'">
-          <p>Certificates form array...</p>
         </div>
 
-        <div *ngIf="activeSection==='languages'">
-          <p>Languages form array...</p>
+        <!-- Certificates -->
+        <div *ngIf="activeSection === 'certificates'" class="form-section w-100">
+        <h3>Certificates</h3>
+
+        <!-- mini-form مستقل -->
+        <div [formGroup]="certificateForm" class="row g-3 mb-3">
+            <div class="col-md-6">
+            <label class="form-label">Capacity</label>
+            <input class="form-control" formControlName="Capacity" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Regulation</label>
+            <input class="form-control" formControlName="Regulation" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Issue Date</label>
+            <input type="date" class="form-control" formControlName="IssueDate" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Expiry Date</label>
+            <input type="date" class="form-control" formControlName="ExpiryDate" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Issuing Authority</label>
+            <input class="form-control" formControlName="IssuingAuthority" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Limitations</label>
+            <input class="form-control" formControlName="Limitations" />
+            </div>
+
+            <div class="col-md-6">
+            <label class="form-label">Country</label>
+            <input class="form-control" formControlName="Country" />
+            </div>
+
+            <div class="col-12 text-end">
+            <button
+                type="button"
+                class="btn btn-outline-primary"
+                (click)="addCertificate()"
+            >
+                + Add Certificate
+            </button>
+            </div>
         </div>
 
-        <div *ngIf="activeSection==='references'">
-          <p>References form array...</p>
+      <!-- الجدول اللي بيعرض البيانات -->
+        <div *ngIf="certificates.controls.length > 0" class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Capacity</th>
+                <th>Regulation</th>
+                <th>Issue Date</th>
+                <th>Expiry Date</th>
+                <th>Issuing Authority</th>
+                <th>Limitations</th>
+                <th>Country</th>
+                <th>Attachments</th>
+                <th></th> <!-- ✅ عمود للـ X -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let c of certificates.controls; let i = index" [formGroup]="c">
+                <td>{{ c.get('Capacity')?.value }}</td>
+                <td>{{ c.get('Regulation')?.value }}</td>
+                <td>{{ c.get('IssueDate')?.value }}</td>
+                <td>{{ c.get('ExpiryDate')?.value }}</td>
+                <td>{{ c.get('IssuingAuthority')?.value }}</td>
+                <td>{{ c.get('Limitations')?.value }}</td>
+                <td>{{ c.get('Country')?.value }}</td>
+                <td>
+                <label class="btn btn-sm btn-outline-secondary">
+                    Attach File
+                    <input type="file" hidden (change)="onCertificateFileSelected($event, i)" />
+                </label>
+                <div *ngIf="c.get('Attachment')?.value" class="mt-1 small text-success">
+                    {{ c.get('Attachment')?.value.name }}
+                </div>
+                </td>
+                <td>
+                <button type="button" class="btn btn-sm btn-link text-danger remove-btn text-decoration-none" (click)="removeCertificate(i)">
+                    ✖
+                </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
         </div>
 
-        <div *ngIf="activeSection==='experience'">
-          <p>Work experience form array...</p>
+        <!-- Languages Section -->
+        <div *ngIf="activeSection === 'languages'" class="form-section w-100">
+        <h3>Languages</h3>
+
+        <div class="mb-3 text-end">
+            <button type="button" class="btn btn-outline-primary" (click)="addLanguage()">
+            + Add Language
+            </button>
         </div>
-      </form>
+
+        <div *ngIf="languages.controls.length > 0" class="table-responsive">
+            <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                <th>Language</th>
+                <th>Read</th>
+                <th>Write</th>
+                <th>Speak</th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let lang of languages.controls; let i = index" [formGroup]="lang">
+                <td>
+                    <input type="text" class="form-input-inline"
+                    formControlName="Language"  placeholder="Enter a Language" />
+                </td>
+                <td>
+                    <input type="text" class="form-input-inline" formControlName="Read" />
+                </td>
+                <td>
+                    <input type="text" class="form-input-inline" formControlName="Write" />
+                </td>
+                <td>
+                    <input type="text" class="form-input-inline" formControlName="Speak" />
+                </td>
+                <td class="text-center">
+                    <span class="remove-row" (click)="removeLanguage(i)">✕</span>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        </div>
+
+        <!-- References Section -->
+        <div *ngIf="activeSection === 'references'" class="form-section w-100">
+        <h3>References</h3>
+
+        <!-- زرار الإضافة -->
+        <div class="mb-3 text-end">
+            <button type="button" class="btn btn-outline-primary" (click)="addReference()">
+            + Add Reference
+            </button>
+        </div>
+
+        <!-- الجدول -->
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Contact Info</th>
+                <th style="width: 40px;"></th>
+                </tr>
+            </thead>
+            <tbody formArrayName="References">
+                <tr *ngFor="let ref of references.controls; let i = index" [formGroupName]="i">
+                <td>
+                    <input class="form-control border-0 border-bottom"
+                        formControlName="Name"
+                        placeholder="Enter name" />
+                </td>
+                <td>
+                    <input class="form-control border-0 border-bottom"
+                        formControlName="Company"
+                        placeholder="Enter company" />
+                </td>
+                <td>
+                    <input class="form-control border-0 border-bottom"
+                        formControlName="ContactInfo"
+                        placeholder="Enter contact info" />
+                </td>
+                <td class="text-center">
+                    <button type="button"
+                            class="btn btn-sm btn-link text-danger text-decoration-none"
+                            (click)="removeReference(i)">
+                    ✕
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        </div>
+
+
+
+        </form>
     </div>
   </div>
 
-  <!-- ✅ Footer -->
+  <!-- الفوتر -->
   <div class="modal-footer">
     <button class="btn cancel" (click)="onCancel()">Cancel</button>
     <button class="btn save" (click)="onSave()">Save</button>
