@@ -3,13 +3,13 @@
   padding-top: 80px;
 
   .table-responsive {
-    overflow-x: auto;  // ✅ عشان يظهر scroll بالعرض
+    overflow-x: auto;  
   }
 
   table {
     font-size: 14px;
-    table-layout: auto;   // الأعمدة تتظبط حسب المحتوى
-    white-space: nowrap;  // ✅ النص يفضل سطر واحد
+    table-layout: auto;   
+    white-space: nowrap; 
     width: 100%;
 
     th, td {
@@ -19,7 +19,7 @@
     }
 
     tr {
-      height: 48px; // ✅ يدي نفس الارتفاع لكل record
+      height: 48px; 
     }
 
     tr:hover td {
@@ -27,7 +27,7 @@
     }
   }
 
-  // 🎨 ألوان مميزة لبعض الأعمدة
+
   .id-col {
     color: #2563eb;
     font-weight: 600;
@@ -44,41 +44,65 @@
     border: none;
     font-weight: 500;
     transition: 0.2s;
-
-    &.active {
-      background: #28a745;
-      color: white;
-    }
-
-    &.inactive {
-      background: #dc3545;
-      color: white;
-      text-decoration: line-through;
-    }
   }
 
-  .edit-btn {
-    padding: 6px 12px;
-    border-radius: 6px;
-    background: #007bff;
-    color: white;
-    border: none;
-    transition: 0.2s;
-
-    &:hover {
-      background: #0056b3;
-      transform: scale(1.05);
-    }
-  }
 }
 .gradient-title {
     background: linear-gradient(90deg, #2563eb, #9333ea, #f43f5e);
+    background-clip: inherit;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
+  }
+
+  .FD-btn{
+    background: #f9f7f7;
+    box-shadow: 1px 1px 18px 3px rgba(0, 0, 0, 0.134);
+    border: 1px solid rgba(128, 128, 128, 0.21);
   }
 
 .modal-body {
   max-height: 70vh;
   overflow-y: auto;
 }
+
+/* Buttons in Actions Column */
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ✅ Status Buttons */
+.status-btn.active {
+  background-color: #d1fae5; 
+  color: #065f46;        
+}
+
+.status-btn.inactive {
+  background-color: #fee2e2;  
+  color: #991b1b;            
+}
+
+/* Hover effect */
+.status-btn:hover {
+  transform: scale(1.1);
+}
+
+/* ✅ Edit Button */
+.edit-btn {
+  background-color: #e0e7ff;  
+  color: #3730a3;             
+}
+
+.edit-btn:hover {
+  background-color: #c7d2fe;
+  transform: scale(1.05);
+}
+

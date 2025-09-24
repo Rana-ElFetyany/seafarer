@@ -34,7 +34,7 @@ export class SeafarersListComponent implements OnInit {
   @ViewChild('modalHost', { read: ViewContainerRef, static: true })
   modalHost!: ViewContainerRef;
 
-  // ✅ الأعمدة كلها
+  // all cols
   allColumns: TableColumn[] = [
     { key: 'EmployeeCode', label: 'EMP ID', visible: true },
     { key: 'EmployeeName', label: 'Name', visible: true },
@@ -128,11 +128,10 @@ export class SeafarersListComponent implements OnInit {
 
     const compRef = this.modalHost.createComponent(SeafarerModalComponent);
 
-    // 👇 ندي المودال الـ Id اللي جاي من الجدول
+    //الـ Id اللي جاي من الجدول
     compRef.instance.currentId = seafarer.Id;
     compRef.instance.isEditMode = true;
 
-    // نفس فكرة الاشتراكات
     const subSaved = compRef.instance.saved.subscribe((res: any) => {
       this._SeafarerService.getAllSeafarers().subscribe({
         next: (data) => {
@@ -206,7 +205,6 @@ export class SeafarersListComponent implements OnInit {
     return (seafarer as any)[key];
   }
 
-  // ✅ تفعيل / إلغاء التفعيل
   onToggleStatus(seafarer: Seafarer) {
     const newStatus = seafarer.Status === 1 ? 2 : 1;
     console.log(`🔄 Toggle status for ID=${seafarer.Id} → ${newStatus}`);
@@ -224,8 +222,4 @@ export class SeafarersListComponent implements OnInit {
       });
   }
 
-  // onEdit(seafarer: Seafarer) {
-  //   console.log('✏️ Edit seafarer ID:', seafarer.Id);
-  //   localStorage.setItem('editSeafarerId', seafarer.Id.toString());
-  // }
 }

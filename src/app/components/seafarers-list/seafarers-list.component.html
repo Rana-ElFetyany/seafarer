@@ -1,18 +1,17 @@
 <div class="seafarers-container container-fluid">
-  <!-- ✅ Header -->
   <div class="header">
     <h3 class="fw-bold gradient-title">🌊 Seafarers Roster</h3>
     <div class="d-flex gap-2">
       <button class="btn btn-primary" (click)="onAdd()">+ Add Seafarer</button>
-      <button class="btn btn-outline-secondary" (click)="toggleFilter()">Filter</button>
-      <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#displayColumnsModal">
+      <button class="btn FD-btn" (click)="toggleFilter()">Filter</button>
+      <button class="btn FD-btn" data-bs-toggle="modal" data-bs-target="#displayColumnsModal">
         Display Columns
       </button>
     </div>
   </div>
 
-  <!-- ✅ الفلتر يظهر ويختفي -->
-  <div class="row mb-3" *ngIf="showFilters">
+
+  <div class="row mt-3" *ngIf="showFilters">
     <div class="col-md-4 mb-2">
       <input 
         type="text" 
@@ -29,7 +28,6 @@
     </div>
   </div>
 
-  <!-- ✅ جدول Scrollable -->
   <div class="table-responsive">
     <table class="table table-hover align-middle border-light my-4 text-nowrap">
       <thead class="table-light">
@@ -52,24 +50,24 @@
               [class.id-col]="col.key === 'EmpId'"
               [class.email-col]="col.key === 'Email'">
             
-            <!-- ✅ Actions Column -->
             <ng-container *ngSwitchCase="'actions'">
-              <div class="d-flex gap-2 justify-content-center">
-                <button 
-                  class="btn btn-sm"
-                  [ngClass]="element.Status === 1 ? 'btn-success' : 'btn-danger'"
-                  (click)="onToggleStatus(element)">
-                  <span *ngIf="element.Status === 1">✔️</span>
-                  <span *ngIf="element.Status !== 1">⭕</span>
-                </button>
+                <div class="d-flex gap-2 justify-content-center">
 
-                <button class="btn btn-sm btn-primary" (click)="onEdit(element)">
-                  ✏️
-                </button>
-              </div>
+                    <button 
+                    class="action-btn status-btn"
+                    [ngClass]="element.Status === 1 ? 'active' : 'inactive'"
+                    (click)="onToggleStatus(element)">
+                    <span *ngIf="element.Status === 1">✔️</span>
+                    <span *ngIf="element.Status !== 1">❌</span>
+                    </button>
+
+                    <button class="action-btn edit-btn" (click)="onEdit(element)">
+                    ✏️
+                    </button>
+                    
+                </div>
             </ng-container>
 
-            <!-- ✅ باقي الخانات -->
             <ng-container *ngSwitchDefault>
               {{ getValue(element, col.key) }}
             </ng-container>
@@ -81,7 +79,6 @@
   </div>
 </div>
 
-<!-- ✅ مودال Display Columns -->
 <div class="modal fade" id="displayColumnsModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
@@ -114,5 +111,4 @@
   </div>
 </div>
 
-<!-- مكان لإدراج المودال ديناميكياً -->
 <ng-template #modalHost></ng-template>
