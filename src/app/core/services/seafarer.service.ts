@@ -15,7 +15,8 @@ export class SeafarerService {
   getAllSeafarers(): Observable<Seafarer[]> {
     // return this.http.get<Seafarer[]>(this.apiUrl);
     return this.http.get<Seafarer[]>(
-      baseUrl + '/api/MarineServices/GetAllSeafarers?Direction=ltr&InCT'
+      baseUrl +
+        '/api/MarineServices/GetAllSeafarers?Direction=ltr&InCT&Index=2&PageSize=200'
     );
   }
 
@@ -43,9 +44,16 @@ export class SeafarerService {
   }
 
   // ✅ Save seafarer
-  saveSeafarer(companyId: string | null, payload: any): Observable<any> {
+  saveSeafarer(payload: any): Observable<any> {
     return this.http.post(
-      `${baseUrl}/api/MarineServices/SaveSeafarer?InCT&CompanyId=${companyId}`,
+      `${baseUrl}/api/MarineServices/SaveSeafarer?InCT`,
+      payload
+    );
+  }
+
+  editSeafarer(payload: any): Observable<any> {
+    return this.http.post(
+      `${baseUrl}/api/MarineServices/SaveSeafarer?InCT`,
       payload
     );
   }

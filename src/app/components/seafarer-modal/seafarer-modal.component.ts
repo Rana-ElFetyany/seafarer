@@ -37,9 +37,11 @@ export class SeafarerModalComponent implements OnInit {
   sponsors: { Text: string; Value: string; Code?: string }[] = [];
   CompanyId: string | null = null;
 
-  // ✅ Main Form
+  currentId: number | null = null;
+  isEditMode = false;
+
   seafarerForm = new FormGroup({
-    // Personal Data
+    Id: new FormControl<number | null>(null),
     EmployeeName: new FormControl<string | null>(null, Validators.required),
     Nationality: new FormControl<string | null>(null),
     BirthDate: new FormControl<string | null>(null),
@@ -53,7 +55,6 @@ export class SeafarerModalComponent implements OnInit {
     Height: new FormControl<number | null>(null),
     NearestAirport: new FormControl<string | null>(null),
     Remarks: new FormControl<string | null>(null),
-
     EmploymentDate: new FormControl<string | null>(null),
     PassportNumber: new FormControl<string | null>(null),
     PassPortIssueDate: new FormControl<string | null>(null),
@@ -65,8 +66,6 @@ export class SeafarerModalComponent implements OnInit {
     VisaExpiryDate: new FormControl<string | null>(null),
     ResidenceNumber: new FormControl<string | null>(null),
     MedicalInsuranceDate: new FormControl<string | null>(null),
-
-    // Contact Section
     Email: new FormControl<string | null>(null),
     PermanentAddressHomeCountry: new FormControl<string | null>(null),
     ContactNumberHomeCountry: new FormControl<string | null>(null),
@@ -76,16 +75,30 @@ export class SeafarerModalComponent implements OnInit {
     ContactNameAndNumberDuringEmergenciesHome: new FormControl<string | null>(
       null
     ),
-
-    // Offshore Data
     SeamanBookNO: new FormControl<string | null>(null),
     SeamanIssueDate: new FormControl<string | null>(null),
     SeamanExpiryDate: new FormControl<string | null>(null),
     CicpaNO: new FormControl<string | null>(null),
     CicpaIssueDate: new FormControl<string | null>(null),
     CicpaExpiryDate: new FormControl<string | null>(null),
-
-    // باقي الأقسام
+    SkypeID: new FormControl<string | null>(null),
+    Declaration: new FormControl<string | null>(null),
+    SignedOffFromAShipDueToMedicalReason: new FormControl<boolean | null>(null),
+    SignedOffFromAShipDueToMedicalReasonComment: new FormControl<string | null>(
+      null
+    ),
+    UndergoneAnyMdicalOperation: new FormControl<boolean | null>(null),
+    UndergoneAnyMdicalOperationComment: new FormControl<string | null>(null),
+    DoctorConsultation: new FormControl<boolean | null>(null),
+    DoctorConsultationComment: new FormControl<string | null>(null),
+    HealthOrDisabilityProblem: new FormControl<boolean | null>(null),
+    HealthOrDisabilityProblemComment: new FormControl<string | null>(null),
+    InquiryOrInvolvedMaritimeAccident: new FormControl<boolean | null>(null),
+    InquiryOrInvolvedMaritimeAccidentComment: new FormControl<string | null>(
+      null
+    ),
+    LicenseSuspendedOrRevoked: new FormControl<boolean | null>(null),
+    LicenseSuspendedOrRevokedComment: new FormControl<string | null>(null),
     Qualifications: new FormArray([]),
     Certificates: new FormArray([]),
     Languages: new FormArray([]),
@@ -96,54 +109,96 @@ export class SeafarerModalComponent implements OnInit {
   ngOnInit(): void {
     this.CompanyId = localStorage.getItem('CompanyId');
 
-    // ✅ Load employees for dropdown
     this._SeafarerService.getEmployees().subscribe({
-      next: (res: any) => {
-        this.employees = res?.result ?? res;
-      },
-      error: (err) => console.error('❌ Error fetching employees:', err),
+      next: (res: any) => (this.employees = res?.result ?? res),
     });
 
     this._SeafarerService.getSponsors().subscribe({
-      next: (res: any) => {
-        this.sponsors = res?.result ?? res;
-      },
-      error: (err) => console.error('❌ Error fetching employees:', err),
+      next: (res: any) => (this.sponsors = res?.result ?? res),
     });
 
-    // ✅ Auto-update Age
     this.seafarerForm.get('BirthDate')?.valueChanges.subscribe((birthDate) => {
       if (birthDate) {
         const age = this.calculateAge(new Date(birthDate));
         this.seafarerForm.get('Age')?.setValue(age, { emitEvent: false });
       }
     });
+
+    if (this.isEditMode && this.currentId) {
+      this._SeafarerService.getAllSeafarers().subscribe({
+        next: (res: any) => {
+          const found = res.find((x: any) => x.Id === this.currentId);
+          if (found) {
+            this.seafarerForm.patchValue({
+              Id: found.Id,
+              EmployeeName: found.EmployeeName,
+              Nationality: found.Nationality,
+              BirthDate: this.formatDate(found.BirthDate),
+              Age: found.Age,
+              PlaceOfBirth: found.PlaceOfBirth,
+              Religion: found.Religion,
+              MaritalStatus: found.MaritalStatus,
+              NameOfSpouse: found.NameOfSpouse,
+              NoOfChildren: found.NoOfChildren,
+              BodyWeight: found.BodyWeight,
+              Height: found.Height,
+              NearestAirport: found.NearestAirport,
+              Remarks: found.Remarks,
+              EmploymentDate: this.formatDate(found.EmploymentDate),
+              PassportNumber: found.PassportNumber,
+              PassPortIssueDate: this.formatDate(found.PassPortIssueDate),
+              PassportExpireDate: this.formatDate(found.IDExPiryDate),
+              JobName: found.JobName,
+              SponsorName: found.VisaSponsorId,
+              VisaUAEIdNO: found.VisaUAEIdNO,
+              VisaIssueDate: this.formatDate(found.VisaIssueDate),
+              VisaExpiryDate: this.formatDate(found.VisaExpiryDate),
+              ResidenceNumber: found.ResidenceNumber,
+              MedicalInsuranceDate: this.formatDate(found.MedicalInsuranceDate),
+              Email: found.EmailId,
+              PermanentAddressHomeCountry: found.PermanentAddressHomeCountry,
+              ContactNumberHomeCountry: found.ContactNumberHomeCountry,
+              ContactNameAndNumberDuringEmergenciesUAE:
+                found.ContactNameAndNumberDuringEmergenciesUAE,
+              ContactNameAndNumberDuringEmergenciesHome:
+                found.ContactNameAndNumberDuringEmergenciesHome,
+              SeamanBookNO: found.SeamanBookNO,
+              SeamanIssueDate: this.formatDate(found.SeamanIssueDate),
+              SeamanExpiryDate: this.formatDate(found.SeamanExpiryDate),
+              CicpaNO: found.CicpaNO,
+              CicpaIssueDate: this.formatDate(found.CicpaIssueDate),
+              CicpaExpiryDate: this.formatDate(found.CicpaExpiryDate),
+              SkypeID: found.SkypeID,
+              Declaration: found.Declaration,
+              SignedOffFromAShipDueToMedicalReason:
+                found.SignedOffFromAShipDueToMedicalReason,
+              SignedOffFromAShipDueToMedicalReasonComment:
+                found.SignedOffFromAShipDueToMedicalReasonComment,
+              UndergoneAnyMdicalOperation: found.UndergoneAnyMdicalOperation,
+              UndergoneAnyMdicalOperationComment:
+                found.UndergoneAnyMdicalOperationComment,
+              DoctorConsultation: found.DoctorConsultation,
+              DoctorConsultationComment: found.DoctorConsultationComment,
+              HealthOrDisabilityProblem: found.HealthOrDisabilityProblem,
+              HealthOrDisabilityProblemComment:
+                found.HealthOrDisabilityProblemComment,
+              InquiryOrInvolvedMaritimeAccident:
+                found.InquiryOrInvolvedMaritimeAccident,
+              InquiryOrInvolvedMaritimeAccidentComment:
+                found.InquiryOrInvolvedMaritimeAccidentComment,
+              LicenseSuspendedOrRevoked: found.LicenseSuspendedOrRevoked,
+              LicenseSuspendedOrRevokedComment:
+                found.LicenseSuspendedOrRevokedComment,
+            });
+          }
+        },
+      });
+    }
   }
 
   setSection(section: string) {
     this.activeSection = section;
   }
-
-  // ✅ Final Save
-  // onSave() {
-  //   if (this.seafarerForm.valid) {
-  //     const formData = this.seafarerForm.value;
-
-  //     this._SeafarerService.saveSeafarer(this.CompanyId, formData).subscribe({
-  //       next: (response) => {
-  //         this.saved.emit(response);
-  //         console.log(response);
-
-  //         this.close.emit();
-  //       },
-  //       error: (error) => {
-  //         console.error('❌ Error saving seafarer:', error);
-  //       },
-  //     });
-  //   } else {
-  //     this.seafarerForm.markAllAsTouched();
-  //   }
-  // }
 
   onSave() {
     if (this.seafarerForm.valid) {
@@ -151,47 +206,55 @@ export class SeafarerModalComponent implements OnInit {
 
       const payload = {
         entity: {
-          EmpId: formValue.EmployeeName, // القيمة المختارة من الدروب داون
-          Nationality: formValue.Nationality,
-          BirthDate: formValue.BirthDate,
-          Age: formValue.Age,
-          PlaceOfBirth: formValue.PlaceOfBirth,
-          Religion: formValue.Religion,
-          MaritalStatus: formValue.MaritalStatus,
+          Id: this.isEditMode ? this.currentId : 0, // ✅ Add = 0 , Edit = currentId
+          PassPortIssueDate: this.formatDate(formValue.PassPortIssueDate),
+          IDExPiryDate: this.formatDate(formValue.PassportExpireDate),
+          SeamanBookNO: formValue.SeamanBookNO,
+          Remarks: formValue.Remarks,
+          EmpId: null, // ✅ نخليه null دلوقتي
+          VisaSponsorId: formValue.SponsorName,
+          VisaIssueDate: this.formatDate(formValue.VisaIssueDate),
+          VisaExpiryDate: this.formatDate(formValue.VisaExpiryDate),
           NameOfSpouse: formValue.NameOfSpouse,
           NoOfChildren: formValue.NoOfChildren,
           BodyWeight: formValue.BodyWeight,
           Height: formValue.Height,
-          NearestAirport: formValue.NearestAirport,
-          Remarks: formValue.Remarks,
-
-          EmploymentDate: formValue.EmploymentDate,
-          PassportNumber: formValue.PassportNumber,
-          PassPortIssueDate: formValue.PassPortIssueDate,
-          IDExPiryDate: formValue.PassportExpireDate, // 👈 هنا غيرنا الاسم
-          JobName: formValue.JobName,
-
           VisaUAEIdNO: formValue.VisaUAEIdNO,
-          VisaIssueDate: formValue.VisaIssueDate,
-          VisaExpiryDate: formValue.VisaExpiryDate,
+          NearestAirport: formValue.NearestAirport,
           ResidenceNumber: formValue.ResidenceNumber,
-          MedicalInsuranceDate: formValue.MedicalInsuranceDate,
-
-          VisaSponsorId: formValue.SponsorName, // 👈 بدل ما كان string
-          EmailId: formValue.Email, // 👈 لو الـ API عايز EmailId مش Email
+          SkypeID: formValue.SkypeID,
           PermanentAddressHomeCountry: formValue.PermanentAddressHomeCountry,
           ContactNumberHomeCountry: formValue.ContactNumberHomeCountry,
           ContactNameAndNumberDuringEmergenciesUAE:
             formValue.ContactNameAndNumberDuringEmergenciesUAE,
           ContactNameAndNumberDuringEmergenciesHome:
             formValue.ContactNameAndNumberDuringEmergenciesHome,
-
-          SeamanBookNO: formValue.SeamanBookNO,
-          SeamanIssueDate: formValue.SeamanIssueDate,
-          SeamanExpiryDate: formValue.SeamanExpiryDate,
+          SeamanIssueDate: this.formatDate(formValue.SeamanIssueDate),
+          SeamanExpiryDate: this.formatDate(formValue.SeamanExpiryDate),
           CicpaNO: formValue.CicpaNO,
-          CicpaIssueDate: formValue.CicpaIssueDate,
-          CicpaExpiryDate: formValue.CicpaExpiryDate,
+          CicpaIssueDate: this.formatDate(formValue.CicpaIssueDate),
+          CicpaExpiryDate: this.formatDate(formValue.CicpaExpiryDate),
+          Declaration: formValue.Declaration,
+          SignedOffFromAShipDueToMedicalReason:
+            formValue.SignedOffFromAShipDueToMedicalReason,
+          SignedOffFromAShipDueToMedicalReasonComment:
+            formValue.SignedOffFromAShipDueToMedicalReasonComment,
+          UndergoneAnyMdicalOperation: formValue.UndergoneAnyMdicalOperation,
+          UndergoneAnyMdicalOperationComment:
+            formValue.UndergoneAnyMdicalOperationComment,
+          DoctorConsultation: formValue.DoctorConsultation,
+          DoctorConsultationComment: formValue.DoctorConsultationComment,
+          HealthOrDisabilityProblem: formValue.HealthOrDisabilityProblem,
+          HealthOrDisabilityProblemComment:
+            formValue.HealthOrDisabilityProblemComment,
+          InquiryOrInvolvedMaritimeAccident:
+            formValue.InquiryOrInvolvedMaritimeAccident,
+          InquiryOrInvolvedMaritimeAccidentComment:
+            formValue.InquiryOrInvolvedMaritimeAccidentComment,
+          LicenseSuspendedOrRevoked: formValue.LicenseSuspendedOrRevoked,
+          LicenseSuspendedOrRevokedComment:
+            formValue.LicenseSuspendedOrRevokedComment,
+          EmailId: formValue.Email,
         },
         Qualifications: this.qualifications.value,
         Certificates: this.certificates.value,
@@ -200,15 +263,18 @@ export class SeafarerModalComponent implements OnInit {
         WorkExperiences: this.seafarerForm.get('WorkExperiences')?.value || [],
       };
 
-      this._SeafarerService.saveSeafarer(this.CompanyId, payload).subscribe({
+      const request$ = this.isEditMode
+        ? this._SeafarerService.editSeafarer(payload)
+        : this._SeafarerService.saveSeafarer(payload);
+
+      request$.subscribe({
         next: (response) => {
           this.saved.emit(response);
-          console.log('✅ Saved:', response);
           this.close.emit();
+          console.log(this.seafarerForm.value);
+          console.log(this.currentId);
         },
-        error: (error) => {
-          console.error('❌ Error saving seafarer:', error);
-        },
+        error: (error) => console.error('❌ Error saving seafarer:', error),
       });
     } else {
       this.seafarerForm.markAllAsTouched();
@@ -219,20 +285,23 @@ export class SeafarerModalComponent implements OnInit {
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
     return age;
   }
 
-  // Getter علشان نستعمله في التمبليت
+  private formatDate(date: any): string | null {
+    if (!date) return null;
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return null;
+    return d.toISOString().split('T')[0]; // ✅ yyyy-MM-dd
+  }
+
   get qualifications(): FormArray<FormGroup> {
     return this.seafarerForm.get(
       'Qualifications'
     ) as unknown as FormArray<FormGroup>;
   }
 
-  // Mini-form مستقل للـ Qualification الجديدة
   qualificationForm = new FormGroup({
     DegreeOrCourse: new FormControl<string | null>(null, Validators.required),
     MajorOrSubject: new FormControl<string | null>(null),
@@ -260,8 +329,7 @@ export class SeafarerModalComponent implements OnInit {
           Country: new FormControl(this.qualificationForm.value.Country),
         })
       );
-
-      this.qualificationForm.reset(); // تصفير الانبوتس
+      this.qualificationForm.reset();
     } else {
       this.qualificationForm.markAllAsTouched();
     }
@@ -271,14 +339,12 @@ export class SeafarerModalComponent implements OnInit {
     this.qualifications.removeAt(index);
   }
 
-  // Getter زي بتاع qualifications
   get certificates(): FormArray<FormGroup> {
     return this.seafarerForm.get(
       'Certificates'
     ) as unknown as FormArray<FormGroup>;
   }
 
-  // Mini-form مستقل للـ Certificate الجديدة
   certificateForm = new FormGroup({
     Capacity: new FormControl<string | null>(null, Validators.required),
     Regulation: new FormControl<string | null>(null),
@@ -287,7 +353,7 @@ export class SeafarerModalComponent implements OnInit {
     IssuingAuthority: new FormControl<string | null>(null),
     Limitations: new FormControl<string | null>(null),
     Country: new FormControl<string | null>(null),
-    Attachment: new FormControl<File | null>(null), // ✅ جديد
+    Attachment: new FormControl<File | null>(null),
   });
 
   addCertificate() {
@@ -303,17 +369,15 @@ export class SeafarerModalComponent implements OnInit {
           ),
           Limitations: new FormControl(this.certificateForm.value.Limitations),
           Country: new FormControl(this.certificateForm.value.Country),
-          Attachment: new FormControl<File | null>(null), // ✅ عمود الملف
+          Attachment: new FormControl<File | null>(null),
         })
       );
-
       this.certificateForm.reset();
     } else {
       this.certificateForm.markAllAsTouched();
     }
   }
 
-  // ✅ التقاط الملف وحفظه في الـ row المناسب
   onCertificateFileSelected(event: Event, index: number) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -328,14 +392,12 @@ export class SeafarerModalComponent implements OnInit {
     this.certificates.removeAt(index);
   }
 
-  // ✅ Getter للـ Languages
   get languages(): FormArray<FormGroup> {
     return this.seafarerForm.get(
       'Languages'
     ) as unknown as FormArray<FormGroup>;
   }
 
-  // ✅ Add Language Row
   addLanguage() {
     const langGroup = new FormGroup({
       Language: new FormControl<string | null>(null),
@@ -346,19 +408,16 @@ export class SeafarerModalComponent implements OnInit {
     this.languages.push(langGroup);
   }
 
-  // ✅ Remove Row
   removeLanguage(index: number) {
     this.languages.removeAt(index);
   }
 
-  // Getter للـ References
   get references(): FormArray<FormGroup> {
     return this.seafarerForm.get(
       'References'
     ) as unknown as FormArray<FormGroup>;
   }
 
-  // إضافة Reference جديد
   addReference() {
     this.references.push(
       new FormGroup({
@@ -369,7 +428,6 @@ export class SeafarerModalComponent implements OnInit {
     );
   }
 
-  // حذف Reference
   removeReference(index: number) {
     this.references.removeAt(index);
   }

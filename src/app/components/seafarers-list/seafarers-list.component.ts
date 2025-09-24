@@ -88,6 +88,8 @@ export class SeafarersListComponent implements OnInit {
         this.seafarers = data;
         this.filteredSeafarers = data;
         this.isLoading = false;
+                  console.log(data);
+
       },
       error: (err) => {
         console.error('❌ Error fetching seafarers:', err);
@@ -101,6 +103,36 @@ export class SeafarersListComponent implements OnInit {
 
     const compRef = this.modalHost.createComponent(SeafarerModalComponent);
 
+    const subSaved = compRef.instance.saved.subscribe((res: any) => {
+      this._SeafarerService.getAllSeafarers().subscribe({
+        next: (data) => {
+          this.seafarers = data;
+          this.filteredSeafarers = data;
+        },
+        error: (err) => console.error(err),
+      });
+      compRef.destroy();
+      subSaved.unsubscribe();
+      subClose.unsubscribe();
+    });
+
+    const subClose = compRef.instance.close.subscribe(() => {
+      compRef.destroy();
+      subSaved.unsubscribe();
+      subClose.unsubscribe();
+    });
+  }
+
+  onEdit(seafarer: any) {
+    this.modalHost.clear();
+
+    const compRef = this.modalHost.createComponent(SeafarerModalComponent);
+
+    // 👇 ندي المودال الـ Id اللي جاي من الجدول
+    compRef.instance.currentId = seafarer.Id;
+    compRef.instance.isEditMode = true;
+
+    // نفس فكرة الاشتراكات
     const subSaved = compRef.instance.saved.subscribe((res: any) => {
       this._SeafarerService.getAllSeafarers().subscribe({
         next: (data) => {
@@ -192,8 +224,8 @@ export class SeafarersListComponent implements OnInit {
       });
   }
 
-  onEdit(seafarer: Seafarer) {
-    console.log('✏️ Edit seafarer ID:', seafarer.Id);
-    localStorage.setItem('editSeafarerId', seafarer.Id.toString());
-  }
+  // onEdit(seafarer: Seafarer) {
+  //   console.log('✏️ Edit seafarer ID:', seafarer.Id);
+  //   localStorage.setItem('editSeafarerId', seafarer.Id.toString());
+  // }
 }
