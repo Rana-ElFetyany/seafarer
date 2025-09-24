@@ -1,10 +1,63 @@
-<nav class="navbar">
-  <div class="logo">Norwegian Cruise</div>
-  <ul class="nav-links">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Destinations</a></li>
-    <li><a href="#">Ships</a></li>
-    <li><a href="#">About</a></li>
-  </ul>
-  <!-- <button class="btn">Find a Cruise</button> -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <!-- ✅ Logo + Module -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+       <svg class="logo-img me-2 h-8 w-8 text-blue-600 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+      <span class="module-title">Marine Service Module</span>
+    </a>
+
+    <!-- ✅ Toggle Button for mobile -->
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav" 
+      aria-expanded="false" 
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- ✅ Collapsible Content -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      
+      <!-- ✅ Search -->
+      <div class="search-box mx-auto my-2 my-lg-0">
+        <input type="text" placeholder="Search..." />
+      </div>
+
+      <!-- ✅ Branches -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/vacancies" routerLinkActive="active">Vacancies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/seafarers-list" routerLinkActive="active">Seafarers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/vessels" routerLinkActive="active">Vessels</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/pre-joining" routerLinkActive="active">Pre-joining</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/planning" routerLinkActive="active">Planning</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/payroll" routerLinkActive="active">Payroll</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/reports" routerLinkActive="active">Reports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/settings" routerLinkActive="active">Setting</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>
