@@ -82,6 +82,8 @@ export class SeafarersListComponent implements OnInit {
   sortColumn: string | null = null;
   sortDirection: 'asc' | 'desc' = 'asc';
 
+  
+
   ngOnInit(): void {
     this._SeafarerService.getAllSeafarers().subscribe({
       next: (data) => {

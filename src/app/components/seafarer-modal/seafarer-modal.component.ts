@@ -42,7 +42,11 @@ export class SeafarerModalComponent implements OnInit {
 
   seafarerForm = new FormGroup({
     Id: new FormControl<number | null>(null),
-    EmployeeName: new FormControl<string | null>(null, Validators.required),
+    EmployeeName: new FormControl<{
+      Text: string;
+      Value: string;
+      Code?: string;
+    } | null>(null, Validators.required),
     Nationality: new FormControl<string | null>(null),
     BirthDate: new FormControl<string | null>(null),
     Age: new FormControl<number | null>(null),
@@ -128,10 +132,13 @@ export class SeafarerModalComponent implements OnInit {
       this._SeafarerService.getAllSeafarers().subscribe({
         next: (res: any) => {
           const found = res.find((x: any) => x.Id === this.currentId);
+          const selectedEmployee = this.employees.find(
+            (e) => e.Value == found.EmployeeId
+          );
           if (found) {
             this.seafarerForm.patchValue({
               Id: found.Id,
-              EmployeeName: found.EmployeeName,
+              EmployeeName: selectedEmployee,
               Nationality: found.Nationality,
               BirthDate: this.formatDate(found.BirthDate),
               Age: found.Age,
@@ -206,12 +213,12 @@ export class SeafarerModalComponent implements OnInit {
 
       const payload = {
         entity: {
-          Id: this.isEditMode ? this.currentId : 0, // ✅ Add = 0 , Edit = currentId
+          Id: this.isEditMode ? this.currentId : 0,
           PassPortIssueDate: this.formatDate(formValue.PassPortIssueDate),
           IDExPiryDate: this.formatDate(formValue.PassportExpireDate),
           SeamanBookNO: formValue.SeamanBookNO,
           Remarks: formValue.Remarks,
-          EmpId: null, // ✅ نخليه null دلوقتي
+          EmpId: null,
           VisaSponsorId: formValue.SponsorName,
           VisaIssueDate: this.formatDate(formValue.VisaIssueDate),
           VisaExpiryDate: this.formatDate(formValue.VisaExpiryDate),
@@ -293,7 +300,7 @@ export class SeafarerModalComponent implements OnInit {
     if (!date) return null;
     const d = new Date(date);
     if (isNaN(d.getTime())) return null;
-    return d.toISOString().split('T')[0]; // ✅ yyyy-MM-dd
+    return d.toISOString().split('T')[0];
   }
 
   get qualifications(): FormArray<FormGroup> {

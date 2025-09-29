@@ -16,6 +16,7 @@
       padding: 10px 12px;
       vertical-align: middle;
       border-top: 1px solid #f3f4f6;
+      text-align: center; /* لجعل النصوص والايقونات في المنتصف */
     }
 
     tr {
@@ -27,7 +28,7 @@
     }
   }
 
-
+  /* Columns custom styles */
   .id-col {
     color: #2563eb;
     font-weight: 600;
@@ -38,71 +39,139 @@
     font-style: italic;
   }
 
-  .status-btn {
-    padding: 6px 12px;
+  /* Buttons in Actions Column */
+  .action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
     border-radius: 6px;
     border: none;
-    font-weight: 500;
-    transition: 0.2s;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
+  /* ✅ Status Buttons */
+  .status-btn.active {
+    background-color: #d1fae5; 
+    color: #065f46;        
+  }
+
+  .status-btn.inactive {
+    background-color: #fee2e2;  
+    color: #991b1b;            
+  }
+
+  /* Hover effect */
+  .status-btn:hover {
+    transform: scale(1.1);
+  }
+
+  /* ✅ Edit Button */
+  .edit-btn {
+    background-color: #e0e7ff;  
+    color: #3730a3;             
+  }
+
+  .edit-btn:hover {
+    background-color: #c7d2fe;
+    transform: scale(1.05);
+  }
+
+  /* Pagination Styles */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 20px 0;
+
+    button {
+      padding: 5px 10px;
+      border: 1px solid #0077ff;
+      background-color: transparent;
+      color: #0077ff;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &.active {
+        background-color: #0077ff;
+        color: white;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        transform: scale(1.05);
+      }
+    }
+  }
 }
+
+/* Gradient Title */
 .gradient-title {
-    background: linear-gradient(90deg, #2563eb, #9333ea, #f43f5e);
-    background-clip: inherit;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 700;
-  }
+  background: linear-gradient(90deg, #2563eb, #9333ea, #f43f5e);
+  background-clip: inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
 
-  .FD-btn{
-    background: #f9f7f7;
-    box-shadow: 1px 1px 18px 3px rgba(0, 0, 0, 0.134);
-    border: 1px solid rgba(128, 128, 128, 0.21);
-  }
+/* Filter & Display Columns Buttons */
+.FD-btn {
+  background: #f9f7f7;
+  box-shadow: 1px 1px 18px 3px rgba(0, 0, 0, 0.134);
+  border: 1px solid rgba(128, 128, 128, 0.21);
+}
 
+/* Modal */
 .modal-body {
   max-height: 70vh;
   overflow-y: auto;
 }
 
-/* Buttons in Actions Column */
-.action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  table {
+    font-size: 13px;
+
+    th, td {
+      padding: 8px 10px;
+    }
+  }
+
+  .action-btn {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  .FD-btn, .btn-primary {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
 }
 
-/* ✅ Status Buttons */
-.status-btn.active {
-  background-color: #d1fae5; 
-  color: #065f46;        
-}
+@media (max-width: 480px) {
+  table {
+    font-size: 12px;
 
-.status-btn.inactive {
-  background-color: #fee2e2;  
-  color: #991b1b;            
-}
+    th, td {
+      padding: 6px 8px;
+    }
+  }
 
-/* Hover effect */
-.status-btn:hover {
-  transform: scale(1.1);
-}
+  .action-btn {
+    font-size: 11px;
+    padding: 3px 5px;
+  }
 
-/* ✅ Edit Button */
-.edit-btn {
-  background-color: #e0e7ff;  
-  color: #3730a3;             
+  .FD-btn, .btn-primary {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
 }
-
-.edit-btn:hover {
-  background-color: #c7d2fe;
-  transform: scale(1.05);
-}
-

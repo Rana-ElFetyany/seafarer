@@ -1,17 +1,12 @@
-<!-- الخلفية الداكنة -->
 <div class="modal-backdrop" (click)="onCancel()"></div>
 
-<!-- الحاوية الرئيسية للمودال -->
 <div class="modal-container">
-  <!-- الهيدر -->
   <div class="modal-header">
     <h2>Seafarer Form</h2>
     <button class="close-btn" (click)="onCancel()">×</button>
   </div>
 
-  <!-- الجسم -->
   <div class="modal-body">
-    <!-- العمود الأيسر -->
     <div class="sidebar">
       <ul>
         <li
@@ -23,148 +18,157 @@
       </ul>
     </div>
 
-    <!-- العمود الأيمن -->
     <div class="form-area">
       <form [formGroup]="seafarerForm" class="row g-3">
-        
+
         <!-- Personal Data -->
         <div *ngIf="activeSection === 'personal'" class="form-section w-100">
           <h3>Personal Data</h3>
           <div class="row g-3">
+
             <div class="col-md-6">
-              <label class="form-label">Employee</label>
+              <label>Employee</label>
               <select class="form-control" formControlName="EmployeeName">
                 <option value="" disabled selected>-- اختر موظف --</option>
+                <option *ngFor="let emp of employees" [ngValue]="emp">{{ emp.Text }}</option>
+              </select>
+
+              <!-- <label for="employeeName">Employee Name</label>
+              <input
+                id="employeeName"
+                type="text"
+                list="employeeList"
+                [formControl]="seafarerForm.get('EmployeeName')"
+                placeholder="Select or type employee"
+                class="form-control"
+              />
+              <datalist id="employeeList">
                 <option *ngFor="let emp of employees" [value]="emp.Value">
                   {{ emp.Text }}
                 </option>
-              </select>
+              </datalist>
+            </div> -->
+
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Nationality</label>
-              <input class="form-control" formControlName="Nationality" />
+              <label>Nationality</label>
+              <input type="text" placeholder="Nationality" class="form-control" formControlName="Nationality" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Birth Date</label>
+              <label>Birth Date</label>
               <input type="date" class="form-control" formControlName="BirthDate" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Age</label>
-              <input class="form-control" formControlName="Age" />
+              <label>Age</label>
+              <input type="number" placeholder="Age" class="form-control" formControlName="Age" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Place Of Birth</label>
-              <input class="form-control" formControlName="PlaceOfBirth" />
+              <label>Place Of Birth</label>
+              <input type="text" placeholder="Place Of Birth" class="form-control" formControlName="PlaceOfBirth" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Religion</label>
-              <input class="form-control" formControlName="Religion" />
+              <label>Religion</label>
+              <input type="text" placeholder="Religion" class="form-control" formControlName="Religion" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Marital Status</label>
-              <input class="form-control" formControlName="MaritalStatus" />
+              <label>Marital Status</label>
+              <input type="text" placeholder="Marital Status" class="form-control" formControlName="MaritalStatus" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Name Of Spouse</label>
-              <input class="form-control" formControlName="NameOfSpouse" />
+              <label>Name Of Spouse</label>
+              <input type="text" placeholder="Name Of Spouse" class="form-control" formControlName="NameOfSpouse" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">No Of Children</label>
-              <input class="form-control" formControlName="NoOfChildren" />
+              <label>No Of Children</label>
+              <input type="number" placeholder="No Of Children" class="form-control" formControlName="NoOfChildren" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Body Weight (kg)</label>
-              <input class="form-control" formControlName="BodyWeight" />
+              <label>Body Weight (kg)</label>
+              <input type="number" placeholder="Body Weight" class="form-control" formControlName="BodyWeight" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Height (cm)</label>
-              <input class="form-control" formControlName="Height" />
+              <label>Height (cm)</label>
+              <input type="number" placeholder="Height" class="form-control" formControlName="Height" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Nearest Airport</label>
-              <input class="form-control" formControlName="NearestAirport" />
+              <label>Nearest Airport</label>
+              <input type="text" placeholder="Nearest Airport" class="form-control" formControlName="NearestAirport" />
             </div>
 
             <div class="col-12">
-              <label class="form-label">Remarks</label>
-              <textarea class="form-control" formControlName="Remarks"></textarea>
+              <label>Remarks</label>
+              <textarea placeholder="Remarks" class="form-control" formControlName="Remarks"></textarea>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Employment Date</label>
+              <label>Employment Date</label>
               <input type="date" class="form-control" formControlName="EmploymentDate" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Job Name</label>
-              <input class="form-control" formControlName="JobName" />
+              <label>Job Name</label>
+              <input type="text" placeholder="Job Name" class="form-control" formControlName="JobName" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Passport Number</label>
-              <input class="form-control" formControlName="PassportNumber" />
+              <label>Passport Number</label>
+              <input type="text" placeholder="Passport Number" class="form-control" formControlName="PassportNumber" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Passport Issue Date</label>
+              <label>Passport Issue Date</label>
               <input type="date" class="form-control" formControlName="PassPortIssueDate" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Passport Expiry Date</label>
+              <label>Passport Expiry Date</label>
               <input type="date" class="form-control" formControlName="PassportExpireDate" />
             </div>
 
-            <!-- <div class="col-md-6">
-              <label class="form-label">Sponsor Name</label>
-              <input class="form-control" formControlName="SponsorName" />
-            </div> -->
-
             <div class="col-md-6">
-              <label class="form-label">Visa Sponsor</label>
+              <label>Visa Sponsor</label>
               <select class="form-control" formControlName="SponsorName">
                 <option value="" disabled selected>-- choose --</option>
-                <option *ngFor="let sp of sponsors" [value]="sp.Value">
-                  {{ sp.Text }}
-                </option>
+                <option *ngFor="let sp of sponsors" [value]="sp.Value">{{ sp.Text }}</option>
               </select>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Visa / UAE ID No</label>
-              <input class="form-control" formControlName="VisaUAEIdNO" />
+              <label>Visa / UAE ID No</label>
+              <input type="text" placeholder="Visa / UAE ID No" class="form-control" formControlName="VisaUAEIdNO" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Visa Issue Date</label>
+              <label>Visa Issue Date</label>
               <input type="date" class="form-control" formControlName="VisaIssueDate" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Visa Expiry Date</label>
+              <label>Visa Expiry Date</label>
               <input type="date" class="form-control" formControlName="VisaExpiryDate" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Residence Number</label>
-              <input class="form-control" formControlName="ResidenceNumber" />
+              <label>Residence Number</label>
+              <input type="text" placeholder="Residence Number" class="form-control" formControlName="ResidenceNumber" />
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Medical Insurance Date</label>
+              <label>Medical Insurance Date</label>
               <input type="date" class="form-control" formControlName="MedicalInsuranceDate" />
             </div>
+
           </div>
         </div>
 
@@ -173,65 +177,57 @@
           <h3>Contact Data</h3>
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Email</label>
-              <input class="form-control" formControlName="Email" />
+              <label>Email</label>
+              <input type="email" placeholder="Email" class="form-control" formControlName="Email" />
             </div>
-                <div class="col-6">
-                <label class="form-label">Permanent Address (Home Country)</label>
-                <input class="form-control" formControlName="PermanentAddressHomeCountry">
-                </div>
-
-                <div class="col-md-6">
-                <label class="form-label">Contact Number (Home Country)</label>
-                <input class="form-control" formControlName="ContactNumberHomeCountry" />
-                </div>
-
-                <div class="col-md-6">
-                <label class="form-label">Contact Name & Number (Emergencies - UAE)</label>
-                <input class="form-control" formControlName="ContactNameAndNumberDuringEmergenciesUAE" />
-                </div>
-
-                <div class="col-md-12">
-                <label class="form-label">Contact Name & Number (Emergencies - Home)</label>
-                <input class="form-control" formControlName="ContactNameAndNumberDuringEmergenciesHome" />
-                </div>
+            <div class="col-md-6">
+              <label>Permanent Address (Home Country)</label>
+              <input type="text" placeholder="Address" class="form-control" formControlName="PermanentAddressHomeCountry" />
+            </div>
+            <div class="col-md-6">
+              <label>Contact Number (Home Country)</label>
+              <input type="text" placeholder="Contact Number" class="form-control" formControlName="ContactNumberHomeCountry" />
+            </div>
+            <div class="col-md-6">
+              <label>Emergency Contact (UAE)</label>
+              <input type="text" placeholder="Name & Number" class="form-control" formControlName="ContactNameAndNumberDuringEmergenciesUAE" />
+            </div>
+            <div class="col-md-6">
+              <label>Emergency Contact (Home)</label>
+              <input type="text" placeholder="Name & Number" class="form-control" formControlName="ContactNameAndNumberDuringEmergenciesHome" />
+            </div>
           </div>
         </div>
 
         <!-- Offshore Data -->
         <div *ngIf="activeSection === 'offshore'" class="form-section w-100">
-        <h3>Offshore Data</h3>
-        <div class="row g-3">
+          <h3>Offshore Data</h3>
+          <div class="row g-3">
             <div class="col-md-6">
-            <label class="form-label">Seaman Book NO</label>
-            <input class="form-control" formControlName="SeamanBookNO" />
+              <label>Seaman Book NO</label>
+              <input type="text" placeholder="Seaman Book NO" class="form-control" formControlName="SeamanBookNO" />
             </div>
-
             <div class="col-md-6">
-            <label class="form-label">Seaman Issue Date</label>
-            <input type="date" class="form-control" formControlName="SeamanIssueDate" />
+              <label>Seaman Issue Date</label>
+              <input type="date" class="form-control" formControlName="SeamanIssueDate" />
             </div>
-
             <div class="col-md-6">
-            <label class="form-label">Seaman Expiry Date</label>
-            <input type="date" class="form-control" formControlName="SeamanExpiryDate" />
+              <label>Seaman Expiry Date</label>
+              <input type="date" class="form-control" formControlName="SeamanExpiryDate" />
             </div>
-
             <div class="col-md-6">
-            <label class="form-label">Cicpa NO</label>
-            <input class="form-control" formControlName="CicpaNO" />
+              <label>CICPA NO</label>
+              <input type="text" placeholder="CICPA NO" class="form-control" formControlName="CicpaNO" />
             </div>
-
             <div class="col-md-6">
-            <label class="form-label">Cicpa Issue Date</label>
-            <input type="date" class="form-control" formControlName="CicpaIssueDate" />
+              <label>CICPA Issue Date</label>
+              <input type="date" class="form-control" formControlName="CicpaIssueDate" />
             </div>
-
             <div class="col-md-6">
-            <label class="form-label">Cicpa Expiry Date</label>
-            <input type="date" class="form-control" formControlName="CicpaExpiryDate" />
+              <label>CICPA Expiry Date</label>
+              <input type="date" class="form-control" formControlName="CicpaExpiryDate" />
             </div>
-        </div>
+          </div>
         </div>
 
         <!-- Qualifications -->

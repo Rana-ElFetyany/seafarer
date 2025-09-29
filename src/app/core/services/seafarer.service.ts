@@ -16,21 +16,19 @@ export class SeafarerService {
     // return this.http.get<Seafarer[]>(this.apiUrl);
     return this.http.get<Seafarer[]>(
       baseUrl +
-        '/api/MarineServices/GetAllSeafarers?Direction=ltr&InCT&Index=2&PageSize=200'
+        '/api/MarineServices/GetAllSeafarers?Direction=ltr&InCT&Index=2&PageSize=10'
     );
   }
 
-  // ✅ API تفعيل / إلغاء تفعيل البحّار
   toggleSeafarerStatus(
     id: number,
     status: number,
     empId: number = 1
   ): Observable<any> {
     const url = `${baseUrl}/api/MarineServices/ActivateAndInActivateSeafarer?Id=${id}&InCT&Status=${status}&EmpId=${empId}`;
-    return this.http.post(url, {}); // POST ب body فاضي لأن الـ API مش طالبة body
+    return this.http.post(url, {}); 
   }
 
-  // ✅ يجيب لينا ليست الموظفين للـ dropdown
   getEmployees(): Observable<any[]> {
     return this.http.get<any[]>(
       baseUrl + '/api/POS/FillEmployee?Id=0&text=&Direction=ltr&InCT'
