@@ -133,7 +133,7 @@ export class SeafarerModalComponent implements OnInit {
         next: (res: any) => {
           const found = res.find((x: any) => x.Id === this.currentId);
           const selectedEmployee = this.employees.find(
-            (e) => e.Value == found.EmployeeId
+            (e) => e.Value == found.EmpId
           );
           if (found) {
             this.seafarerForm.patchValue({
@@ -213,12 +213,16 @@ export class SeafarerModalComponent implements OnInit {
 
       const payload = {
         entity: {
-          Id: this.isEditMode ? this.currentId : 0,
+          // ✅ Id fix
+          Id: this.isEditMode && this.currentId ? this.currentId : 0,
+
+          // ✅ EmpId from employee object
+          EmpId: formValue.EmployeeName?.Value ?? 0,
+
           PassPortIssueDate: this.formatDate(formValue.PassPortIssueDate),
           IDExPiryDate: this.formatDate(formValue.PassportExpireDate),
           SeamanBookNO: formValue.SeamanBookNO,
           Remarks: formValue.Remarks,
-          EmpId: null,
           VisaSponsorId: formValue.SponsorName,
           VisaIssueDate: this.formatDate(formValue.VisaIssueDate),
           VisaExpiryDate: this.formatDate(formValue.VisaExpiryDate),
@@ -276,10 +280,11 @@ export class SeafarerModalComponent implements OnInit {
 
       request$.subscribe({
         next: (response) => {
+          console.log('📤 Payload Before Save:', payload);
           this.saved.emit(response);
           this.close.emit();
           console.log(this.seafarerForm.value);
-          console.log(this.currentId);
+          console.log('Saved ID:', this.currentId);
         },
         error: (error) => console.error('❌ Error saving seafarer:', error),
       });

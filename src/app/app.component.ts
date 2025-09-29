@@ -17,12 +17,10 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // ✅ نخلي Angular يخلص أول Navigation قبل ما نحدد showNavbar
     setTimeout(() => {
       this.showNavbar = !this.router.url.includes('/login');
     });
-
-    // ✅ متابعة أي تغييرات بعد كدا
+    
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showNavbar = !event.url.includes('/login');

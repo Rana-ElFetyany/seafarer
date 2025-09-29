@@ -16,7 +16,7 @@ export class SeafarerService {
     // return this.http.get<Seafarer[]>(this.apiUrl);
     return this.http.get<Seafarer[]>(
       baseUrl +
-        '/api/MarineServices/GetAllSeafarers?Direction=ltr&InCT&Index=2&PageSize=10'
+        '/api/MarineServices/GetAllSeafarers?Direction=ltr&InCT&Index=2&PageSize=200'
     );
   }
 
