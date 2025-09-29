@@ -1,14 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { TokenResponse } from '../interfaces/token-response'; // ✅ استدعاء الانترفيس
+import { TokenResponse } from '../interfaces/token-response';
+import { baseUrl } from '../environments/environment'; // ✅ استدعاء الـ baseUrl
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://176.9.184.190/token';
+  private apiUrl = `${baseUrl}/token`;
 
   login(user: {
     username: string;
