@@ -11,7 +11,6 @@ export class SeafarerService {
   private http = inject(HttpClient);
 
   getAllSeafarers(): Observable<Seafarer[]> {
-    // return this.http.get<Seafarer[]>(this.apiUrl);
     return this.http.get<Seafarer[]>(
       baseUrl +
         '/api/MarineServices/GetAllSeafarers?Direction=ltr&InCT&Index=2&PageSize=200'

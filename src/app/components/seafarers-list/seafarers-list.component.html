@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="table-responsive">
+  <div class="table-responsive d-flex justify-content-center align-items-center flex-column flex-wrap">
     <table class="table table-hover align-middle border-light my-4 text-nowrap">
       <thead class="table-light">
         <tr>
@@ -44,7 +44,7 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let element of filteredSeafarers">
+        <tr *ngFor="let element of paginatedSeafarers">
           <td *ngFor="let col of displayedColumns"
               [ngSwitch]="col.key"
               [class.id-col]="col.key === 'EmpId'"
@@ -76,7 +76,41 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-between align-items-center flex-column">
+      <div>
+        Page {{ currentPage }} of {{ totalPages }}
+      </div>
+  
+      <nav>
+        <ul class="pagination mb-0">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="goToPage(currentPage - 1)">Previous</button>
+          </li>
+  
+          <li 
+            class="page-item" 
+            *ngFor="let page of paginationRange" 
+            [class.active]="currentPage === page"
+            [class.disabled]="page === '...'">
+            <button 
+              class="page-link" 
+              (click)="page !== '...' && goToPage(+page)">
+              {{ page }}
+            </button>
+          </li>
+
+  
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="goToPage(currentPage + 1)">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
+  
+
 </div>
 
 <div class="modal fade" id="displayColumnsModal" tabindex="-1" aria-hidden="true">

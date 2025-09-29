@@ -82,16 +82,13 @@ export class SeafarersListComponent implements OnInit {
   sortColumn: string | null = null;
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  
-
   ngOnInit(): void {
     this._SeafarerService.getAllSeafarers().subscribe({
       next: (data) => {
         this.seafarers = data;
         this.filteredSeafarers = data;
         this.isLoading = false;
-                  console.log(data);
-
+        console.log(data);
       },
       error: (err) => {
         console.error('❌ Error fetching seafarers:', err);
@@ -224,4 +221,56 @@ export class SeafarersListComponent implements OnInit {
       });
   }
 
+  // pagination
+  currentPage = 1;
+  pageSize = 7; // عدد الصفوف في كل صفحة
+
+  get totalPages() {
+    return Math.ceil(this.filteredSeafarers.length / this.pageSize);
+  }
+
+  get paginatedSeafarers() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return this.filteredSeafarers.slice(start, end);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  get paginationRange(): (number | string)[] {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const delta = 2; // عدد الصفحات قبل وبعد current
+    const range: (number | string)[] = [];
+    const rangeWithDots: (number | string)[] = [];
+    let l: number | undefined;
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        range.push(i);
+      }
+    }
+
+    for (let i of range) {
+      if (l !== undefined) {
+        if (Number(i) - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (Number(i) - l !== 1) {
+          rangeWithDots.push('...');
+        }
+      }
+      rangeWithDots.push(i);
+      l = Number(i);
+    }
+
+    return rangeWithDots;
+  }
 }
