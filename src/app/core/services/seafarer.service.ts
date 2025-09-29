@@ -9,8 +9,6 @@ import { baseUrl } from '../environments/environment';
 })
 export class SeafarerService {
   private http = inject(HttpClient);
-  // private apiUrl =
-  //   'http://176.9.184.190/api/MarineServices/GetAllSeafarers?Direction=ltr&InCT';
 
   getAllSeafarers(): Observable<Seafarer[]> {
     // return this.http.get<Seafarer[]>(this.apiUrl);
